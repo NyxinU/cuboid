@@ -1,8 +1,8 @@
 class OuterBox
   attr_reader :dimensions
 
-  def initialize(width, height, depth)
-    @width, @height, @depth = width, height, depth 
+  def initialize(dimensions)
+    @dimensions = dimensions
   end 
 end 
 
@@ -10,8 +10,10 @@ class Cuboid
   attr_reader :origin, :dimensions
 
   def initialize(origin, dimensions)
-    @origin = origin 
+    @origin = origin
     @dimensions = dimensions
+
+    validate!
   end 
   
   def move_to!(x, y, z)
@@ -50,6 +52,16 @@ class Cuboid
   end 
 
   # private 
+
+  def validate!
+    if @origin.length != 3 || @dimensions.length != 3 
+      raise "ORIGIN AND DIMENSIONS MUST HAVE 3 NUMBERS"
+    elsif @origin.any? { |num| num < 0 }
+      raise "ORIGIN VALUES CANNOT BE LESS THAN 0"
+    elsif @dimensions.any? { |num| num < 1}
+      raise "DIMENSION VALUES CANNOT BE LESS 1"
+    end 
+  end 
 
   def range_finder
     range = {

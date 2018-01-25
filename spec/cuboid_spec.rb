@@ -12,8 +12,30 @@ describe Cuboid do
     end 
 
     it "creates a cuboid with specified dimensions" do 
-      expect(subject.dimensions).to eq [2,1,3]
+      expect(subject.dimensions).to eq [2, 1, 3]
     end
+
+    # let (:out_of_bounds) {Cuboid.new([1, 1, -,1][1, 1, 1])}
+    context "invalid argument" do 
+
+      it "raise error if invalid number of elements in origin" do 
+        expect { Cuboid.new([0,0,0,0],[1,1,1])}.to raise_error("ORIGIN AND DIMENSIONS MUST HAVE 3 NUMBERS")
+      end 
+
+      it "raise error if invalid number of elements dimensions" do 
+        expect { Cuboid.new([0,0,0],[1,1,1,1])}.to raise_error("ORIGIN AND DIMENSIONS MUST HAVE 3 NUMBERS")
+      end 
+
+      it "raises error if origin coordinates are out of bounds" do 
+        expect { Cuboid.new([-1, 1, 1],[1, 1, 1]) }.to raise_error("ORIGIN VALUES CANNOT BE LESS THAN 0")
+      end 
+
+      it "raises error if dimensions are less than one" do 
+        expect { Cuboid.new([1, 1, 1],[0, 1, 1]) }.to raise_error("DIMENSION VALUES CANNOT BE LESS 1")
+      end 
+
+    end 
+
   end 
  
   describe "move_to" do
