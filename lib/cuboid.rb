@@ -2,38 +2,33 @@ class OuterBox
   attr_reader :dimensions
 
   def initialize(width, height, depth)
-    @width = width
-    @height = height
-    @depth = depth 
+    @width, @height, @depth = width, height, depth 
   end 
 end 
 
 class Cuboid
+  attr_reader :origin, :dimensions
 
   def initialize(origin, dimensions)
-    @x, @y, @z = origin 
-    @width, @height, @depth = dimensions
+    @origin = origin 
+    @dimensions = dimensions
   end 
   
-  #BEGIN public methods that should be your starting point
-
   def move_to!(x, y, z)
-    @x = x
-    @y = y
-    @z = z 
+    @origin = [x,y,z]
   end
   
   def vertices
     range = range_finder
     
     vertices = {
-      v1:[@x, @y, @z],
-      v2:[range[:x][1], @y, @z],
-      v3:[@x, range[:y][1], @z],
-      v4:[range[:x][1], range[:y][1], @z],
-      v5:[@x, @y, range[:z][1]],
-      v6:[range[:x][1], @y, range[:z][1]],
-      v7:[@x, range[:y][1], range[:z][1]],
+      v1:[x,y,z],
+      v2:[range[:x][1],y,z],
+      v3:[x, range[:y][1],z],
+      v4:[range[:x][1], range[:y][1],z],
+      v5:[x,y, range[:z][1]],
+      v6:[range[:x][1],y, range[:z][1]],
+      v7:[x, range[:y][1], range[:z][1]],
       v8:[range[:x][1], range[:y][1], range[:z][1]]
     }
   end
@@ -50,11 +45,17 @@ class Cuboid
     true 
   end
 
+  def rotate!(axis)
+
+  end 
+
+  # private 
+
   def range_finder
     range = {
-      x:[@x, @x + @width],
-      y:[@y, @y + @height],
-      z:[@z, @z + @depth]
+      x:[x, x + width],
+      y:[y, y + height],
+      z:[z, z + depth]
     }
   end 
 
@@ -71,13 +72,36 @@ class Cuboid
     false 
   end 
 
+  def x 
+    @origin[0]
+  end 
+
+  def y 
+    @origin[1]
+  end 
+
+  def z 
+    @origin[2]
+  end 
+
+  def width
+    @dimensions[0]
+  end 
+
+  def height
+    @dimensions[1]
+  end 
+
+  def depth
+    @dimensions[2]
+  end 
+
 end
 
 if __FILE__ == $PROGRAM_NAME
   outer = OuterBox.new(10,10,10)
-  cuboid1 = Cuboid.new([0,0,0],[3,5,9])
+  cuboid1 = Cuboid.new([0,1,0],[3,5,9])
   cuboid2 = Cuboid.new([0,0,0],[2,1,3])
-  print cuboid1.intersects?(cuboid2)
 end
 
 
