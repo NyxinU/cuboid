@@ -4,18 +4,17 @@ require 'cuboid'
 #  Do whatever you need to do to make it work and please add your own test cases for as many
 #  methods as you feel need coverage
 describe Cuboid do
-  subject { Cuboid.new([0, 0, 0],[2, 1, 3]) }
+  subject { Cuboid.new([10, 10, 10],[2, 1, 3]) }
 
   describe "initialize" do
     it "creates cuboid at specified origin" do 
-      expect(subject.origin).to eq [0, 0, 0]
+      expect(subject.origin).to eq [10, 10, 10]
     end 
 
     it "creates a cuboid with specified dimensions" do 
       expect(subject.dimensions).to eq [2, 1, 3]
     end
 
-    # let (:out_of_bounds) {Cuboid.new([1, 1, -,1][1, 1, 1])}
     context "invalid argument" do 
 
       it "raise error if invalid number of elements in origin" do 
@@ -46,5 +45,25 @@ describe Cuboid do
   
   describe "intersects?" do
   end
+
+  describe "rotate!" do 
+    it "rotates along the x axis" do 
+      subject.rotate!("x")
+      expect(subject.origin).to eq [10, 10, 9]
+      expect(subject.dimensions).to eq [2, 3, 1]
+    end 
+
+    it "rotates along the y axis" do 
+      subject.rotate!("y")
+      expect(subject.origin).to eq [10, 10, 8]
+      expect(subject.dimensions).to eq [3, 1, 2]
+    end 
+
+    it "rotates along the z axis" do 
+      subject.rotate!("z")
+      expect(subject.origin).to eq [10, 8, 10]
+      expect(subject.dimensions).to eq [1, 2, 3]
+    end 
+  end 
 
 end
