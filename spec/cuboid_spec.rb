@@ -63,7 +63,18 @@ describe Cuboid do
       subject.rotate!("z")
       expect(subject.origin).to eq [10, 8, 10]
       expect(subject.dimensions).to eq [1, 2, 3]
-    end 
-  end 
+    end
+    
+    context "shift if out of bound after rotation" do
 
+      let (:walled_cuboid) {Cuboid.new([1, 1, 1],[3, 7, 12])}
+
+      it "fixes out of bounds rotation along x axis" do
+        walled_cuboid.rotate!("x")
+        expect(walled_cuboid.origin).to eq [1, 1, 0]
+        expect(walled_cuboid.dimensions).to eq [3, 12, 7]
+      end  
+    end
+
+  end 
 end

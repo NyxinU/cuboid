@@ -1,11 +1,3 @@
-class OuterBox
-  attr_reader :dimensions
-
-  def initialize(dimensions)
-    @dimensions = dimensions
-  end 
-end 
-
 class Cuboid
   attr_reader :origin, :dimensions
 
@@ -40,12 +32,19 @@ class Cuboid
     case axis 
 
     when "x"
-      @origin[2] -= height 
+      @origin[2] -= height
+      @origin[2] = 0 if z < 0
+      @dimensions[1], @dimensions[2] = depth, height  
     when "y"
-      @origin[2] -= width 
+      @origin[2] -= width
+      @origin[2] = 0 if z < 0 
+      @dimensions[0], @dimensions[2] = depth, width 
     when "z"
-      @origin[1] -= width 
-    end 
+      @origin[1] -= width
+      @origin[1] = 0 if y < 0
+      @dimensions[0], @dimensions[1] = height, width  
+    end
+    
   end 
 
   # private 
