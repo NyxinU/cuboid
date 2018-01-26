@@ -2,13 +2,13 @@ class Cuboid
   attr_reader :origin, :dimensions
 
   def initialize(origin, dimensions)
+    validate!(origin, dimensions)
     @origin = origin
     @dimensions = dimensions
-
-    validate!
   end 
   
   def move_to!(x, y, z)
+    validate!([x, y, z], @dimensions)
     @origin = [x, y, z]
     true
   end
@@ -16,20 +16,21 @@ class Cuboid
   def vertices
     range = range_finder
     
-    {
-      v1:[x, y, z],
-      v2:[range[:x][1], y, z],
-      v3:[x, range[:y][1], z],
-      v4:[range[:x][1], range[:y][1], z],
-      v5:[x, y, range[:z][1]],
-      v6:[range[:x][1], y, range[:z][1]],
-      v7:[x, range[:y][1], range[:z][1]],
-      v8:[range[:x][1], range[:y][1], range[:z][1]]
-    }
+    [
+      [x, y, z],
+      [range[:x][1], y, z],
+      [x, range[:y][1], z],
+      [range[:x][1], range[:y][1], z],
+      [x, y, range[:z][1]],
+      [range[:x][1], y, range[:z][1]],
+      [x, range[:y][1], range[:z][1]],
+      [range[:x][1], range[:y][1], range[:z][1]]
+    ]
   end
   
   #returns true if the two cuboids intersect each other.  False otherwise.
   def intersects?(other)
+    raise "NOT A CUBOID" unless other.is_a? Cuboid 
     self_range = range_finder
     other_range = other.range_finder
 
@@ -40,6 +41,7 @@ class Cuboid
     true 
   end
 
+  #rotates along given axis
   def rotate!(axis)
     raise "INVALID AXIS" unless ["x", "y", "z"].include?(axis.to_s)
 
@@ -61,15 +63,13 @@ class Cuboid
     true
   end 
 
-  private 
-
-  def validate!
-    if @origin.length != 3 || @dimensions.length != 3 
+  def validate!(origin, dimensions)
+    if origin.length != 3 || dimensions.length != 3 
       raise "ORIGIN AND DIMENSIONS MUST HAVE 3 NUMBERS"
-    elsif @origin.any? { |num| num < 0 }
+    elsif origin.any? { |num| num < 0 }
       raise "ORIGIN VALUES CANNOT BE LESS THAN 0"
-    elsif @dimensions.any? { |num| num < 1 }
-      raise "DIMENSION VALUES CANNOT BE LESS 1"
+    elsif dimensions.any? { |num| num <= 0 }
+      raise "DIMENSION VALUES CANNOT BE LESS OR EQUAL TO 0"
     end 
   end 
 
@@ -81,6 +81,7 @@ class Cuboid
     }
   end 
 
+  #check to see if the x, y and z range of 2 cuboids overlap
   def overlap?(self_range, other_range)
     return true if self_range == other_range 
     overlap_helper(self_range, other_range) || overlap_helper(other_range, self_range)
