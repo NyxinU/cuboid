@@ -38,15 +38,13 @@ class Cuboid
 
   def rotate!(axis)
     case axis 
+
     when "x"
-      p depth.class 
-      
+      @origin[2] -= height 
     when "y"
-      p depth.class 
-      
+      @origin[2] -= width 
     when "z"
-      p height.class
-      
+      @origin[1] -= width 
     end 
   end 
 
@@ -110,17 +108,17 @@ class Cuboid
     @origin[2]
   end 
 
-  def x=(value)
-    @origin[0] = value
-  end 
+  # def x=(value)
+  #   @origin[0] = value
+  # end 
 
-  def y=(value)
-    @origin[1] = value
-  end 
+  # def y=(value)
+  #   @origin[1] = value
+  # end 
 
-  def z=(value)
-    @origin[2] = value
-  end 
+  # def z=(value)
+  #   @origin[2] = value
+  # end 
 
   def width
     @dimensions[0]
@@ -134,17 +132,17 @@ class Cuboid
     @dimensions[2]
   end
 
-  def width=(value)
-    @dimensions[0] = value
-  end 
+  # def width=(value)
+  #   @dimensions[0] = value
+  # end 
 
-  def height=(value)
-    @dimensions[1] = value
-  end 
+  # def height=(value)
+  #   @dimensions[1] = value
+  # end 
 
-  def depth=(value)
-    @dimensions[2] = value
-  end
+  # def depth=(value)
+  #   @dimensions[2] = value
+  # end
 
 end
 
