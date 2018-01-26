@@ -15,7 +15,7 @@ class Cuboid
   def vertices
     range = range_finder
     
-    vertices = {
+    {
       v1:[x,y,z],
       v2:[range[:x][1],y,z],
       v3:[x, range[:y][1],z],
@@ -71,7 +71,7 @@ class Cuboid
   end 
 
   def range_finder
-    range = {
+    {
       x:[x, x + width],
       y:[y, y + height],
       z:[z, z + depth]
