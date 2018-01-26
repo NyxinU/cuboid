@@ -74,6 +74,16 @@ describe Cuboid do
         expect(walled_cuboid.origin).to eq [1, 1, 0]
         expect(walled_cuboid.dimensions).to eq [3, 12, 7]
       end  
+      it "fixes out of bounds rotation along y axis" do
+        walled_cuboid.rotate!("y")
+        expect(walled_cuboid.origin).to eq [1, 1, 0]
+        expect(walled_cuboid.dimensions).to eq [12, 7, 3]
+      end  
+      it "fixes out of bounds rotation along z axis" do
+        walled_cuboid.rotate!("z")
+        expect(walled_cuboid.origin).to eq [1, 0, 1]
+        expect(walled_cuboid.dimensions).to eq [7, 3, 12]
+      end  
     end
 
   end 

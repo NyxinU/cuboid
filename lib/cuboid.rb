@@ -13,7 +13,18 @@ class Cuboid
   end
   
   def vertices
-    vertices_finder
+    range = range_finder
+    
+    vertices = {
+      v1:[x,y,z],
+      v2:[range[:x][1],y,z],
+      v3:[x, range[:y][1],z],
+      v4:[range[:x][1], range[:y][1],z],
+      v5:[x,y, range[:z][1]],
+      v6:[range[:x][1],y, range[:z][1]],
+      v7:[x, range[:y][1], range[:z][1]],
+      v8:[range[:x][1], range[:y][1], range[:z][1]]
+    }
   end
   
   #returns true if the two cuboids intersect each other.  False otherwise.
@@ -47,7 +58,7 @@ class Cuboid
     
   end 
 
-  # private 
+  private 
 
   def validate!
     if @origin.length != 3 || @dimensions.length != 3 
@@ -64,21 +75,6 @@ class Cuboid
       x:[x, x + width],
       y:[y, y + height],
       z:[z, z + depth]
-    }
-  end 
-
-  def vertices_finder 
-    range = range_finder
-    
-    vertices = {
-      v1:[x,y,z],
-      v2:[range[:x][1],y,z],
-      v3:[x, range[:y][1],z],
-      v4:[range[:x][1], range[:y][1],z],
-      v5:[x,y, range[:z][1]],
-      v6:[range[:x][1],y, range[:z][1]],
-      v7:[x, range[:y][1], range[:z][1]],
-      v8:[range[:x][1], range[:y][1], range[:z][1]]
     }
   end 
 
@@ -107,18 +103,6 @@ class Cuboid
     @origin[2]
   end 
 
-  # def x=(value)
-  #   @origin[0] = value
-  # end 
-
-  # def y=(value)
-  #   @origin[1] = value
-  # end 
-
-  # def z=(value)
-  #   @origin[2] = value
-  # end 
-
   def width
     @dimensions[0]
   end 
@@ -131,24 +115,6 @@ class Cuboid
     @dimensions[2]
   end
 
-  # def width=(value)
-  #   @dimensions[0] = value
-  # end 
-
-  # def height=(value)
-  #   @dimensions[1] = value
-  # end 
-
-  # def depth=(value)
-  #   @dimensions[2] = value
-  # end
-
-end
-
-if __FILE__ == $PROGRAM_NAME
-  outer = OuterBox.new(10,10,10)
-  cuboid1 = Cuboid.new([0,1,0],[3,5,9])
-  cuboid2 = Cuboid.new([0,0,0],[2,1,3])
 end
 
 
