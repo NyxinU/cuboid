@@ -9,19 +9,20 @@ class Cuboid
   end 
   
   def move_to!(x, y, z)
-    @origin = [x,y,z]
+    @origin = [x, y, z]
+    true
   end
   
   def vertices
     range = range_finder
     
     {
-      v1:[x,y,z],
-      v2:[range[:x][1],y,z],
-      v3:[x, range[:y][1],z],
-      v4:[range[:x][1], range[:y][1],z],
-      v5:[x,y, range[:z][1]],
-      v6:[range[:x][1],y, range[:z][1]],
+      v1:[x, y, z],
+      v2:[range[:x][1], y, z],
+      v3:[x, range[:y][1], z],
+      v4:[range[:x][1], range[:y][1], z],
+      v5:[x, y, range[:z][1]],
+      v6:[range[:x][1], y, range[:z][1]],
       v7:[x, range[:y][1], range[:z][1]],
       v8:[range[:x][1], range[:y][1], range[:z][1]]
     }
@@ -40,8 +41,9 @@ class Cuboid
   end
 
   def rotate!(axis)
-    case axis 
+    raise "INVALID AXIS" unless ["x", "y", "z"].include?(axis.to_s)
 
+    case axis 
     when "x"
       @origin[2] -= height
       @origin[2] = 0 if z < 0
@@ -56,6 +58,7 @@ class Cuboid
       @dimensions[0], @dimensions[1] = height, width  
     end
     
+    true
   end 
 
   private 
@@ -65,7 +68,7 @@ class Cuboid
       raise "ORIGIN AND DIMENSIONS MUST HAVE 3 NUMBERS"
     elsif @origin.any? { |num| num < 0 }
       raise "ORIGIN VALUES CANNOT BE LESS THAN 0"
-    elsif @dimensions.any? { |num| num < 1}
+    elsif @dimensions.any? { |num| num < 1 }
       raise "DIMENSION VALUES CANNOT BE LESS 1"
     end 
   end 

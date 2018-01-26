@@ -7,22 +7,22 @@ describe Cuboid do
   subject { Cuboid.new([10, 10, 10],[2, 1, 3]) }
 
   describe "initialize" do
-    it "creates cuboid at specified origin" do 
+    it "initialize cuboid at specified origin" do 
       expect(subject.origin).to eq [10, 10, 10]
     end 
 
-    it "creates a cuboid with specified dimensions" do 
+    it "initialize cuboid with specified dimensions" do 
       expect(subject.dimensions).to eq [2, 1, 3]
     end
 
     context "invalid argument" do 
 
       it "raise error if invalid number of elements in origin" do 
-        expect { Cuboid.new([0,0,0,0],[1,1,1])}.to raise_error("ORIGIN AND DIMENSIONS MUST HAVE 3 NUMBERS")
+        expect { Cuboid.new([0, 0, 0, 0],[1, 1, 1]) }.to raise_error("ORIGIN AND DIMENSIONS MUST HAVE 3 NUMBERS")
       end 
 
       it "raise error if invalid number of elements dimensions" do 
-        expect { Cuboid.new([0,0,0],[1,1,1,1])}.to raise_error("ORIGIN AND DIMENSIONS MUST HAVE 3 NUMBERS")
+        expect { Cuboid.new([0, 0, 0],[1, 1, 1, 1]) }.to raise_error("ORIGIN AND DIMENSIONS MUST HAVE 3 NUMBERS")
       end 
 
       it "raises error if origin coordinates are out of bounds" do 
@@ -37,16 +37,20 @@ describe Cuboid do
 
   end 
  
-  describe "move_to" do
+  describe "#move_to" do
     it "changes the origin in the simple happy case" do
-      expect(subject.move_to!(1,2,3)).to be true
+      expect(subject.move_to!(1, 2, 3)).to be true
     end
   end    
   
-  describe "intersects?" do
+  describe "#intersects?" do
   end
 
-  describe "rotate!" do 
+  describe "#rotate!" do 
+    it "rotates in the simple happy case" do 
+      expect(subject.rotate!(["x", "y", "z"].sample)).to be true
+    end 
+
     it "rotates along the x axis" do 
       subject.rotate!("x")
       expect(subject.origin).to eq [10, 10, 9]
@@ -64,27 +68,32 @@ describe Cuboid do
       expect(subject.origin).to eq [10, 8, 10]
       expect(subject.dimensions).to eq [1, 2, 3]
     end
+
+    context "invalid axis" do
+      it "raise error" do  
+        expect { subject.rotate!("a") }.to raise_error("INVALID AXIS")
+      end 
+    end 
     
-    context "shift if out of bound after rotation" do
+    context "shifts if out of bounds after rotate" do
 
-      let (:walled_cuboid) {Cuboid.new([1, 1, 1],[3, 7, 12])}
+      let (:walled_cuboid) { Cuboid.new([1, 1, 1],[3, 7, 12]) }
 
-      it "fixes out of bounds rotation along x axis" do
+      it "x axis" do
         walled_cuboid.rotate!("x")
         expect(walled_cuboid.origin).to eq [1, 1, 0]
         expect(walled_cuboid.dimensions).to eq [3, 12, 7]
       end  
-      it "fixes out of bounds rotation along y axis" do
+      it "y axis" do
         walled_cuboid.rotate!("y")
         expect(walled_cuboid.origin).to eq [1, 1, 0]
         expect(walled_cuboid.dimensions).to eq [12, 7, 3]
       end  
-      it "fixes out of bounds rotation along z axis" do
+      it "z axis" do
         walled_cuboid.rotate!("z")
         expect(walled_cuboid.origin).to eq [1, 0, 1]
         expect(walled_cuboid.dimensions).to eq [7, 3, 12]
       end  
     end
-
   end 
 end
